@@ -5,14 +5,13 @@ begin
   require 'rate' unless Object.const_defined?('Rate')
 rescue LoadError
   # rate_plugin is not installed
-  raise Exception.new("ERROR: The Rate plugin is not installed.  Please install the Rate plugin from https://projects.littlestreamsoftware.com/projects/redmine-rate")
+  # raise Exception.new("ERROR: The Rate plugin is not installed.  Please install the Rate plugin from https://projects.littlestreamsoftware.com/projects/redmine-rate")
 end
 
 # Patches to the Redmine core.
-require 'dispatcher'
 require 'issue_patch'
 require 'query_patch'
-Dispatcher.to_prepare do
+ActionDispatch::Callbacks.to_prepare do
   Issue.send(:include, IssuePatch) unless Issue.included_modules.include? IssuePatch
   Query.send(:include, QueryPatch) unless Query.included_modules.include? QueryPatch
 end
@@ -30,19 +29,19 @@ Redmine::Plugin.register :budget_plugin do
   version '0.2.0'
 
   requires_redmine :version_or_higher => '0.8.0'
-  
+
   settings :default => {
     'budget_nonbillable_overhead' => '',
     'budget_materials' => '',
     'budget_profit' => ''
   }, :partial => 'settings/budget_settings'
 
-  
+
   project_module :budget_module do
     permission :view_budget, { :deliverables => [:index, :issues]}
     permission :manage_budget, { :deliverables => [:new, :edit, :create, :update, :destroy, :preview, :bulk_assign_issues]}
   end
-  
-  menu :project_menu, :budget, {:controller => "deliverables", :action => 'index'}, :caption => :budget_title
+
+  menu :project_menu, :budget, {:controller => "deliverables", :action => 'index'}, :caption => :budget_title, :after => :activity, :param => :id
 end
 require 'redmine_budget/hooks/controller_timelog_available_criterias_hook'

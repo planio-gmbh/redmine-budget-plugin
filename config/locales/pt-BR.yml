@@ -1,0 +1,50 @@
+pt-BR:
+  budget_title: Orçamento
+  field_cost_per_hour: Custo por hora
+  field_total_hours: Total de horas
+  field_overhead: Despesas
+  label_overhead: "Despesas: "
+  field_materials: Custos com materiais
+  label_materials: "Materiais: "
+  field_profit: Lucro
+  field_budget: Orçamento Total
+  label_budget: "Orçamento Total: "
+  field_fixed_cost: Lance Fixo
+  field_project_manager_signoff: Assinatura do Gerente de Projeto
+  field_client_signoff: Assinatura do Cliente
+  field_deliverable: Produto
+  field_deliverable_subject: Produto
+  field_due: Data Prevista
+  label_member_rate: Custo (R$)
+  label_currency: R$
+  message_updated_issues: Atualizou %d tarefas
+  message_budget_settings: Informe um valor total ou porcentagem em cada campo para definir o Total padrão. Use <strong>%%</strong> para porcentagens.
+  label_non_billable_overhead: Despesas não faturáveis
+  label_materials: Materiais
+  label_profit: Orçamento
+  label_new_deliverable: Novo produto
+  label_fixed_cost: Custo fixo
+  caption_due: Data prevista
+  caption_progress: Progresso
+  caption_subject: Assunto
+  caption_score: Classificacao
+  caption_budget: Orçamento
+  caption_labor_budget: Orçamento de Trabalho
+  caption_spent: Gasto
+  label_update_deliverable: Atualizar Produto
+  label_labor_budget: "Orçamento de Trabalho: "
+  label_labor_budget_spent: "Orçamento de Trabalho Gasto: "
+  label_labor_budget_remaining: "Orçamento de Trabalho Remanescente: "
+  label_progress: "Progresso: "
+  label_budget_score: "Classificacao do Orçamento: "
+  label_overruns: "Excedente: "
+  label_missing_on: Ausente no
+  label_next_due_date: "Proxima Data Prevista: "
+  label_completion: "Conclusao: "
+  label_potential_profit: "Lucro Potencial: "
+  label_bulk_assign: Atribuicao em massa
+  label_labor: "Trabalho: "
+  label_fixed_amount: "Montante Total: "
+  label_hours_estimated: "Horas Estimatadas: "
+  label_hours_used: "Horas Usadas: "
+  label_toggle_all: "Expandir todas as linhas de produtos"
