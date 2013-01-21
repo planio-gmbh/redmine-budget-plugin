@@ -25,7 +25,7 @@
             <% end %>
 
             <% if deliverable.hours_used > 0 %>
-            <%= row_with_double_data l(:label_hours_used), number_with_precision(deliverable.hours_used,0), number_to_currency(deliverable.spent_by_members, :unit => l(:label_currency), :precision => 0)  %>
+            <%= row_with_double_data l(:label_hours_used), number_with_precision(deliverable.hours_used, :precision => 0), number_to_currency(deliverable.spent_by_members, :unit => l(:label_currency), :precision => 0)  %>
 
             <tr><td>&nbsp;</td></tr>
 
