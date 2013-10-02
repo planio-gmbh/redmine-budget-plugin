@@ -1,7 +1,7 @@
     <tr id="deliverable-details-<%= deliverable.id %>" class="deliverable deliverable-details <%= css %>" style="display:none;">
       <td class="deliverable-actions">
         <%= content_tag(:p,link_to(l(:button_edit), :action => 'edit', :id => @project.identifier, :deliverable_id => deliverable.id)) if allowed_management? -%>
-        <%= content_tag(:p,link_to(l(:button_delete), { :action => 'destroy', :id => @project.identifier, :deliverable_id => deliverable.id}, :confirm => l(:text_are_you_sure))) if allowed_management? %>
+        <%= content_tag(:p,link_to(l(:button_delete), { :action => 'destroy', :id => @project.identifier, :deliverable_id => deliverable.id}, :confirm => l(:text_are_you_sure), :method => 'delete')) if allowed_management? %>
         <%= content_tag(:p,link_to(l(:label_issue_plural), :action => 'issues', :id => @project.identifier, :deliverable_id => deliverable.id)) -%>
         <% if allowed_management? && @project.versions.size > 0 %>
         <div>
