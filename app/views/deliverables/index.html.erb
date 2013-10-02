@@ -5,9 +5,7 @@
 <% if allowed_management? %>
 <div id="new-deliverable" style="<%= @display_form ? '' : 'display:none;' -%>">
   <h2><%= l(:label_new_deliverable) %></h2>
-  <% remote_form_for :deliverable, @deliverable, :url => {:controller => 'deliverables', :action => 'create', :id => @project },
-                     :method => :post, :builder => TabularFormBuilder, :lang => current_language,
-                     :html => {:multipart => true, :id => 'deliverable-form', :class => 'tabular'} do |f| %>
+  <%= form_for @deliverable, :url => create_deliverable_path(params[:id]), :method => :post, :builder => Redmine::Views::LabelledFormBuilder, :remote => true, :lang => current_language, :html => {:multipart => true, :id => 'deliverable-form', :class => 'tabular'} do |f| %>
     <%= render :partial => 'form', :locals => { :mode => :create, :f => f } %>
   <% end %>
 </div>

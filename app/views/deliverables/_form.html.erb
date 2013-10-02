@@ -23,7 +23,11 @@
             </td>
             <td>
               <%= check_box(:deliverable, :type, {}, FixedDeliverable.name, HourlyDeliverable.name) %>
-              <%= observe_field('deliverable_type', :function => "new Budget.changeType();") %>
+              <script type="text/javascript">
+                $("#deliverable_type").change(function() {
+                  new Budget.changeType();
+                });
+              </script>
             </td>
             <td class="calculation-column">
             </td>
@@ -75,12 +79,10 @@
               <%= content_tag(:span, 0, :id => 'total-budget-calculation', :class => "budget-calculation") %>
             </td>
           </tr>
-          
+
         </table>
         <%= f.hidden_field :budget %>
-        <%= observe_form('deliverable-form', :function => "new Budget.updateAmounts();", :on => 'blur') %>
 
-        
       </div>
       <script type="text/javascript">new Budget.changeType();</script>
       <script type="text/javascript">new Budget.updateAmounts();</script>
@@ -93,18 +95,18 @@
 
     </div>
     <%= mode == :create ? submit_tag(l(:button_create)) : submit_tag(l(:button_update)) %>
-    <%= link_to_remote l(:label_preview), 
-                       { :url => { :controller => 'deliverables', :action => 'preview', :id => @project },
-                         :method => 'post',
-                         :update => 'preview',
-                         :with => "Form.serialize('deliverable-form')",
-                         :complete => "Element.scrollTo('preview')"
-                       }, :accesskey => accesskey(:preview) %>
+    <%= link_to l(:label_preview), preview_deliverable_path(:id => @project), :id => "budget_preview_link", :accesskey => accesskey(:preview) %>
+    <script type="text/javascript">
+      $("#budget_preview_link").click(function() {
+        $.post($(this).attr("href"), $("#deliverable-form").serializeArray(), 'script');
+        return false;
+      });
+    </script>
 
 <%# Same as `wikitoolbar_for 'deliverable_description'` but without the help link %>
 <%= javascript_include_tag('jstoolbar/jstoolbar') %>
 <%= javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language}") %>
-<%= javascript_tag("var toolbar = new jsToolBar($('deliverable_description'));toolbar.draw();") %>
+<%= javascript_tag("var toolbar = new jsToolBar($('#deliverable_description')[0]);toolbar.draw();") %>
 
 
 <div id="preview" class="wiki"></div>
