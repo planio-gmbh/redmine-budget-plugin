@@ -10,10 +10,12 @@ end
 
 # Patches to the Redmine core.
 require 'issue_patch'
-require 'query_patch'
+require 'issue_query_patch'
+require 'time_report_patch'
 ActionDispatch::Callbacks.to_prepare do
   Issue.send(:include, IssuePatch) unless Issue.included_modules.include? IssuePatch
-  Query.send(:include, QueryPatch) unless Query.included_modules.include? QueryPatch
+  IssueQuery.send(:include, IssueQueryPatch) unless IssueQuery.included_modules.include? IssueQueryPatch
+  Redmine::Helpers::TimeReport.send(:include, TimeReportPatch) unless Redmine::Helpers::TimeReport.included_modules.include? TimeReportPatch
 end
 
 # Hooks
@@ -26,9 +28,9 @@ Redmine::Plugin.register :budget_plugin do
   description 'Budget is a plugin to manage the set of deliverables for each project, automatically calculating key performance indicators.'
   url 'https://projects.littlestreamsoftware.com/projects/redmine-budget'
   author_url 'http://www.littlestreamsoftware.com'
-  version '0.2.0'
+  version '0.3.0'
 
-  requires_redmine :version_or_higher => '0.8.0'
+  requires_redmine :version_or_higher => '2.3.0'
 
   settings :default => {
     'budget_nonbillable_overhead' => '',
@@ -44,4 +46,3 @@ Redmine::Plugin.register :budget_plugin do
 
   menu :project_menu, :budget, {:controller => "deliverables", :action => 'index'}, :caption => :budget_title, :after => :activity, :param => :id
 end
-require 'redmine_budget/hooks/controller_timelog_available_criterias_hook'

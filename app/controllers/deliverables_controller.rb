@@ -101,7 +101,7 @@ class DeliverablesController < ApplicationController
 
   # Create a query in the session and redirects to the issue list with that query
   def issues
-    @query = Query.new(:name => "_")
+    @query = IssueQuery.new(:name => "_")
     @query.project = @project
     unless params[:deliverable_id] == 'none'
       @query.add_filter("deliverable_id", '=', [params[:deliverable_id]])
