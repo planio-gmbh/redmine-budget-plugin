@@ -37,6 +37,7 @@ class DeliverablesController < ApplicationController
   # Action to preview the Deliverable description
   def preview
     @text = params[:deliverable][:description]
+    render :partial => 'common/preview'
   end
 
   # Saves a new Deliverable

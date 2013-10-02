@@ -84,30 +84,24 @@
         <%= f.hidden_field :budget %>
 
       </div>
-      <script type="text/javascript">new Budget.changeType();</script>
-      <script type="text/javascript">new Budget.updateAmounts();</script>
+      <%= wikitoolbar_for "deliverable_description" %>
       <script type="text/javascript">
-        new PeriodicalExecuter(function() {
-            Budget.updateAmounts();
-        }, 5);
+        new Budget.changeType();
+        new Budget.updateAmounts();
+        setInterval(Budget.updateAmounts, 5000);
       </script>
       <div style="clear:both;"> </div>
 
     </div>
     <%= mode == :create ? submit_tag(l(:button_create)) : submit_tag(l(:button_update)) %>
-    <%= link_to l(:label_preview), preview_deliverable_path(:id => @project), :id => "budget_preview_link", :accesskey => accesskey(:preview) %>
+    <%#= link_to l(:label_preview), preview_deliverable_path(:id => @project), :id => "budget_preview_link", :accesskey => accesskey(:preview) %>
+    <%= preview_link(preview_deliverable_path(:id => @project), 'deliverable-form') %>
     <script type="text/javascript">
       $("#budget_preview_link").click(function() {
         $.post($(this).attr("href"), $("#deliverable-form").serializeArray(), 'script');
         return false;
       });
     </script>
-
-<%# Same as `wikitoolbar_for 'deliverable_description'` but without the help link %>
-<%= javascript_include_tag('jstoolbar/jstoolbar') %>
-<%= javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language}") %>
-<%= javascript_tag("var toolbar = new jsToolBar($('#deliverable_description')[0]);toolbar.draw();") %>
-
 
 <div id="preview" class="wiki"></div>
 </fieldset>

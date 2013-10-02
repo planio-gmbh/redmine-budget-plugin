@@ -3,9 +3,11 @@
 </div>
 
 <% if allowed_management? %>
+<% heads_for_wiki_formatter %>
+<script type="text/javascript">jsToolBar.prototype.elements.help.disabled = true;</script>
 <div id="new-deliverable" style="<%= @display_form ? '' : 'display:none;' -%>">
   <h2><%= l(:label_new_deliverable) %></h2>
-  <%= form_for @deliverable, :url => create_deliverable_path(params[:id]), :method => :post, :builder => Redmine::Views::LabelledFormBuilder, :remote => true, :lang => current_language, :html => {:multipart => true, :id => 'deliverable-form', :class => 'tabular'} do |f| %>
+  <%= form_for @deliverable, :as => :deliverable, :url => create_deliverable_path(params[:id]), :method => :post, :builder => Redmine::Views::LabelledFormBuilder, :remote => true, :lang => current_language, :html => {:multipart => true, :id => 'deliverable-form', :class => 'tabular'} do |f| %>
     <%= render :partial => 'form', :locals => { :mode => :create, :f => f } %>
   <% end %>
 </div>

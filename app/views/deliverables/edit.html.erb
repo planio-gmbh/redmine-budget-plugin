@@ -1,5 +1,5 @@
 <h2><%= l(:label_update_deliverable) %></h2>
-<%= form_for @deliverable, :url => {:controller => 'deliverables', :action => 'update', :id => @project, :deliverable_id => @deliverable.id },
+<%= form_for @deliverable, :as => :deliverable, :url => {:controller => 'deliverables', :action => 'update', :id => @project, :deliverable_id => @deliverable.id },
                            :method => :put, :builder => Redmine::Views::LabelledFormBuilder, :lang => current_language,
                            :html => {:multipart => true, :id => 'deliverable-form', :class => 'tabular'} do |f| %>
 
