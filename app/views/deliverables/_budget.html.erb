@@ -79,7 +79,7 @@
   <% if allowed_management? && budget.amount_missing_on_deliverables > 0%>
   <tr>
     <td>
-      <%= l(:label_missing_on) %> <%= link_to('Deliverables:', :action => 'issues', :id => @project.id, :deliverable_id => :none) %>
+      <%= l(:label_missing_on) %> <%= link_to('Deliverables:', :action => 'issues', :id => @project.identifier, :deliverable_id => :none) %>
     </td>
     <td class="calculation-column">
       <%= h number_to_currency(budget.amount_missing_on_deliverables, :unit => l(:label_currency), :precision => 0) %>
@@ -92,10 +92,9 @@
     <td>
       <%= l(:label_missing_on) %> <%= link_to('Issues:', 
           :controller => 'timelog',
-          :action => 'details', 
-          :project_id => @project.id,
-          :sort_key => 'issue_id',
-          :sort_order => 'asc') %>
+          :action => 'index',
+          :project_id => @project.identifier,
+          :sort => 'issue') %>
 
     </td>
     <td class="calculation-column">

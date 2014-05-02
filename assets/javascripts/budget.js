@@ -1,8 +1,5 @@
 /* Used to calculate the Budget */
-var BudgetModule = Class.create();
-Object.extend(BudgetModule.prototype, {
-    initialize: function () {},
-
+var Budget = {
     toAmount: function(value) {
         var amount = value.replace(/[^1234567890.]/ig,'');
         if (amount) {
@@ -13,66 +10,65 @@ Object.extend(BudgetModule.prototype, {
     },
 
     updateAmounts: function() {
-        if ($('deliverable_type').checked) {
+        if ($('#deliverable_type').checked) {
             // Fixed cost
-            var cost = Budget.toAmount($('deliverable_fixed_cost').value);
-            Budget.updateAmount($('fixedCost'), cost);
+            var cost = Budget.toAmount($('#deliverable_fixed_cost').val());
+            Budget.updateAmount($('#fixedCost'), cost);
         } else {
             // Variable cost
-            var perHour = Budget.toAmount($('deliverable_cost_per_hour').value);
-            var hours = Budget.toAmount($('deliverable_total_hours').value);
+            var perHour = Budget.toAmount($('#deliverable_cost_per_hour').val());
+            var hours = Budget.toAmount($('#deliverable_total_hours').val());
 
             var cost = perHour * hours;
-            Budget.updateAmount($('variableCost'), cost);
+            Budget.updateAmount($('#variableCost'), cost);
         }
 
 
-        if ($('deliverable_overhead').value.match('%')) {
-            var overhead_subtotal =  (Budget.toAmount($('deliverable_overhead').value) / 100) * cost;
+        if ($('#deliverable_overhead').val().match('%')) {
+            var overhead_subtotal =  (Budget.toAmount($('#deliverable_overhead').val()) / 100) * cost;
         } else {
-            var overhead_subtotal =  Budget.toAmount($('deliverable_overhead').value);
+            var overhead_subtotal =  Budget.toAmount($('#deliverable_overhead').val());
         }
 
-        if ($('deliverable_materials').value.match('%')) {
-            var materials_subtotal =  (Budget.toAmount($('deliverable_materials').value) / 100) * cost;
+        if ($('#deliverable_materials').val().match('%')) {
+            var materials_subtotal =  (Budget.toAmount($('#deliverable_materials').val()) / 100) * cost;
         } else {
-            var materials_subtotal =  Budget.toAmount($('deliverable_materials').value);
+            var materials_subtotal =  Budget.toAmount($('#deliverable_materials').val());
         }
 
         // Profit uses labor cost and overhead
-        if ($('deliverable_profit').value.match('%')) {
-            var profit_subtotal =  (Budget.toAmount($('deliverable_profit').value) / 100) * (cost + overhead_subtotal);
+        if ($('#deliverable_profit').val().match('%')) {
+            var profit_subtotal =  (Budget.toAmount($('#deliverable_profit').val()) / 100) * (cost + overhead_subtotal);
         } else {
-            var profit_subtotal =  Budget.toAmount($('deliverable_profit').value);
+            var profit_subtotal =  Budget.toAmount($('#deliverable_profit').val());
         }
 
         // Amounts
-        Budget.updateAmount($('overhead_subtotal'), overhead_subtotal);
-        Budget.updateAmount($('materials_subtotal'), materials_subtotal);
-        Budget.updateAmount($('profit_subtotal'), profit_subtotal);
+        Budget.updateAmount($('#overhead_subtotal'), overhead_subtotal);
+        Budget.updateAmount($('#materials_subtotal'), materials_subtotal);
+        Budget.updateAmount($('#profit_subtotal'), profit_subtotal);
 
         var total = cost + overhead_subtotal + materials_subtotal + profit_subtotal;
-        $('deliverable_budget').value = total;
-        $('total-budget-calculation').innerHTML = Budget.number_to_currency(total);
+        $('#deliverable_budget').val(total);
+        $('#total-budget-calculation').html(Budget.number_to_currency(total));
     },
 
     updateAmount: function(element, value) {
         if (element) {
-            element.innerHTML = Budget.number_to_currency(value);
+            element.html(Budget.number_to_currency(value));
         }
     },
 
     changeType: function() {
-        if ($('deliverable_type').checked) {
+        if ($('#deliverable_type').checked) {
             // Fixed
-            $$('.budget-hourly').each(function(ele) { ele.hide(); });
-            $$('.budget-fixed').each(function(ele) { ele.show(); });
+            $('.budget-hourly').hide();
+            $('.budget-fixed').show();
         } else {
             // Variable
-            $$('.budget-hourly').each(function(ele) { ele.show(); });
-            $$('.budget-fixed').each(function(ele) { ele.hide(); });
+            $('.budget-hourly').show();
+            $('.budget-fixed').hide();
         }
-
         Budget.updateAmounts();
     },
 
@@ -105,31 +101,20 @@ Object.extend(BudgetModule.prototype, {
             return number
         }
     }
-});
-Budget = new BudgetModule();
+};
 
 function toggleAll() {
-  $$('.deliverable-details').each(function(ele) {
-    ele.toggle();
-  });
-  $$('.toggle').each(function(e) {
-    e.toggle();
-  });
+    $('.deliverable-details, .toggle').toggle();
 }
 
-
 function expandRow(deliverable_id) {
-  $('deliverable-details-'+ deliverable_id).show();
-  $('deliverable-description-'+ deliverable_id).show();
-  $$('.toggle_' + deliverable_id).each(function(e) {
-    e.toggle();
-  });
+    $('#deliverable-details-'+ deliverable_id).show();
+    $('#deliverable-description-'+ deliverable_id).show();
+    $('.toggle_' + deliverable_id).toggle();
 }
 
 function collapseRow(deliverable_id) {
-  $('deliverable-details-'+ deliverable_id).hide();
-   $('deliverable-description-'+ deliverable_id).hide();
-  $$('.toggle_' + deliverable_id).each(function(e) {
-    e.toggle();
-  });
+    $('#deliverable-details-'+ deliverable_id).hide();
+    $('#deliverable-description-'+ deliverable_id).hide();
+    $('.toggle_' + deliverable_id).toggle();
 }
