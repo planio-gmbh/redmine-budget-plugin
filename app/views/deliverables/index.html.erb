@@ -5,7 +5,7 @@
 <% if allowed_management? %>
 <% heads_for_wiki_formatter %>
 <script type="text/javascript">jsToolBar.prototype.elements.help.disabled = true;</script>
-<div id="new-deliverable" style="<%= @display_form ? '' : 'display:none;' -%>">
+<div id="new-deliverable" style="<%= @display_form ? '' : 'display:none;' -%> margin-top: 2em;">
   <h2><%= l(:label_new_deliverable) %></h2>
   <%= form_for @deliverable, :as => :deliverable, :url => create_deliverable_path(params[:id]), :method => :post, :builder => Redmine::Views::LabelledFormBuilder, :remote => true, :lang => current_language, :html => {:multipart => true, :id => 'deliverable-form', :class => 'tabular'} do |f| %>
     <%= render :partial => 'form', :locals => { :mode => :create, :f => f } %>
@@ -27,6 +27,6 @@
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag "budget.css", :plugin => "budget_plugin", :media => "screen" %>
-  <%= javascript_include_tag('budget', :plugin => 'budget_plugin') %>
+  <%= stylesheet_link_tag "budget.css", :plugin => "redmine_budget", :media => "screen" %>
+  <%= javascript_include_tag('budget', :plugin => 'redmine_budget') %>
 <% end %>

@@ -11,22 +11,13 @@ class DeliverablesController < ApplicationController
     sort_init "#{Deliverable.table_name}.id", "desc"
     sort_update 'id' => "#{Deliverable.table_name}.id"
 
-    @deliverable_count = Deliverable.count(:conditions => { :project_id => @project.id})
+    deliverables = Deliverable.where project_id: @project.id
+    @deliverable_count = deliverables.size
     @deliverable_pages = Paginator.new self, @deliverable_count, per_page_option, params['page']
-    @deliverables = Deliverable.find(:all,
-                                     {
-                                       :conditions => { :project_id => @project.id},
-                                       :limit => per_page_option,
-                                       :offset => @deliverable_pages.current.offset
-                                     }.merge(sort_order)
-                                     )
-
-    @deliverables = sort_if_needed @deliverables
+    @deliverables = sort_if_needed deliverables.limit(per_page_option).offset(@deliverable_pages.current.offset).order(sort_order[:order]).all.to_a
 
     @deliverable = Deliverable.new
-
     @budget = Budget.new(@project.id)
-
     @display_form = params[:new].present? || @deliverables.empty?
 
     respond_to do |format|
@@ -135,7 +126,7 @@ class DeliverablesController < ApplicationController
   end
 
   def get_settings
-    @settings = Setting.plugin_budget_plugin
+    @settings = Setting.plugin_redmine_budget
   end
 
   # Sorting orders

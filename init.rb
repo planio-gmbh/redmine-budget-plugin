@@ -1,28 +1,6 @@
-require 'redmine'
+require_dependency 'redmine_budget'
 
-# Budget requires the Rate plugin
-begin
-  require 'rate' unless Object.const_defined?('Rate')
-rescue LoadError
-  # rate_plugin is not installed
-  # raise Exception.new("ERROR: The Rate plugin is not installed.  Please install the Rate plugin from https://projects.littlestreamsoftware.com/projects/redmine-rate")
-end
-
-# Patches to the Redmine core.
-require 'issue_patch'
-require 'issue_query_patch'
-require 'time_report_patch'
-ActionDispatch::Callbacks.to_prepare do
-  Issue.send(:include, IssuePatch) unless Issue.included_modules.include? IssuePatch
-  IssueQuery.send(:include, IssueQueryPatch) unless IssueQuery.included_modules.include? IssueQueryPatch
-  Redmine::Helpers::TimeReport.send(:include, TimeReportPatch) unless Redmine::Helpers::TimeReport.included_modules.include? TimeReportPatch
-end
-
-# Hooks
-require_dependency 'budget_issue_hook'
-require_dependency 'budget_project_hook'
-
-Redmine::Plugin.register :budget_plugin do
+Redmine::Plugin.register :redmine_budget do
   name 'Budget'
   author 'Eric Davis'
   description 'Budget is a plugin to manage the set of deliverables for each project, automatically calculating key performance indicators.'
@@ -46,3 +24,11 @@ Redmine::Plugin.register :budget_plugin do
 
   menu :project_menu, :budget, {:controller => "deliverables", :action => 'index'}, :caption => :budget_title, :after => :activity, :param => :id
 end
+
+Rails.configuration.to_prepare do
+  RedmineBudget::require_rate_plugin unless defined?(Rate)
+  Issue.send(:include, RedmineBudget::IssuePatch) unless Issue.included_modules.include? RedmineBudget::IssuePatch
+  IssueQuery.send(:include, RedmineBudget::IssueQueryPatch) unless IssueQuery.included_modules.include? RedmineBudget::IssueQueryPatch
+  Redmine::Helpers::TimeReport.send(:include, RedmineBudget::TimeReportPatch) unless Redmine::Helpers::TimeReport.included_modules.include? RedmineBudget::TimeReportPatch
+end
+

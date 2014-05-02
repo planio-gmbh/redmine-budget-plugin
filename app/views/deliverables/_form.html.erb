@@ -1,6 +1,5 @@
 <fieldset class="tabular">
     <%= error_messages_for 'deliverable' %>
-    <div class="box">
       <div class="splitcontentleft">
         <p><%= f.text_field :subject, :required => true %></p>
         <p><%= f.text_area :description,
@@ -23,11 +22,6 @@
             </td>
             <td>
               <%= check_box(:deliverable, :type, {}, FixedDeliverable.name, HourlyDeliverable.name) %>
-              <script type="text/javascript">
-                $("#deliverable_type").change(function() {
-                  new Budget.changeType();
-                });
-              </script>
             </td>
             <td class="calculation-column">
             </td>
@@ -82,8 +76,8 @@
 
         </table>
         <%= f.hidden_field :budget %>
-
       </div>
+
       <%= wikitoolbar_for "deliverable_description" %>
       <script type="text/javascript">
         new Budget.changeType();
@@ -92,7 +86,6 @@
       </script>
       <div style="clear:both;"> </div>
 
-    </div>
     <%= mode == :create ? submit_tag(l(:button_create)) : submit_tag(l(:button_update)) %>
     <%= preview_link(preview_deliverable_path(:id => @project), 'deliverable-form') %>
 

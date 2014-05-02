@@ -10,7 +10,7 @@ var Budget = {
     },
 
     updateAmounts: function() {
-        if ($('#deliverable_type').checked) {
+        if($('#deliverable_type').attr('checked')) {
             // Fixed cost
             var cost = Budget.toAmount($('#deliverable_fixed_cost').val());
             Budget.updateAmount($('#fixedCost'), cost);
@@ -60,16 +60,16 @@ var Budget = {
     },
 
     changeType: function() {
-        if ($('#deliverable_type').checked) {
-            // Fixed
-            $('.budget-hourly').hide();
-            $('.budget-fixed').show();
-        } else {
-            // Variable
-            $('.budget-hourly').show();
-            $('.budget-fixed').hide();
-        }
-        Budget.updateAmounts();
+      if ($('#deliverable_type').attr('checked')) {
+        // Fixed
+        $('.budget-hourly').hide();
+        $('.budget-fixed').show();
+      } else {
+        // Variable
+        $('.budget-hourly').show();
+        $('.budget-fixed').hide();
+      }
+      Budget.updateAmounts();
     },
 
     // Rails-like number_to_currency currency formatting
@@ -118,3 +118,6 @@ function collapseRow(deliverable_id) {
     $('#deliverable-description-'+ deliverable_id).hide();
     $('.toggle_' + deliverable_id).toggle();
 }
+
+$(document).on('change', "#deliverable_type", Budget.changeType);
+

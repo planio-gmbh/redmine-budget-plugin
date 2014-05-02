@@ -85,7 +85,7 @@ module DeliverablesHelper
     style ||= ''
 
     content_tag(:span,
-                link_to_function(image_tag(image, :plugin => "budget_plugin"), js),
+                link_to_function(image_tag(image, :plugin => "redmine_budget"), js),
                 :class => "toggle toggle_" + deliverable_id.to_s,
                 :style => style
                 )
